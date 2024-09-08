@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TaskItem>
+
+@{
+    ViewData["Title"] = "Task Page";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsComplete)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var Item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(List => Item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(List => Item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(List => Item.Title)
+            </td>
+            <td>
+                @Html.CheckBoxFor(List => Item.IsComplete)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
