@@ -1,20 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using TodoListMvc.Models;
+using TodoListMvc.Repository;
 
 namespace TodoListMvc.Controllers
 {
     public class TaskController : Controller
     {
-        public ActionResult Index()
-        {
-            IEnumerable<TaskItem> tasks = new List<TaskItem>()
-            {
-                new TaskItem { Id = 1, Title = "Task 1", Description = "Description 1", IsComplete = false },
-                new TaskItem { Id = 2, Title = "Task 2", Description = "Description 2", IsComplete = false },
-                new TaskItem { Id = 3, Title = "Task 3", Description = "Description 3", IsComplete = false }
-            };
+        private readonly ITaskRepository _taskRepository;
 
-            return View(tasks);
+        public TaskController(ITaskRepository taskRepository)
+        {
+            _taskRepository = taskRepository;
+        }
+
+        public async Task<ActionResult> Index()
+        {
+            var taskItems = await _taskRepository.GetAll();
+            return View(taskItems);
         }
     }
 }
