@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using TodoListMvc.Contexts;
+using TodoListMvc.Repository;
 using TodoListMvc.Seeds;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 builder.Services.AddControllersWithViews();
 
