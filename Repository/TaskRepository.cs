@@ -14,8 +14,24 @@ public class TaskRepository : ITaskRepository
         _context = context;
     }
 
+    private async Task Save()
+    {
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<TaskItem>> GetAll()
     {
         return await _context.TaskItems.ToListAsync();
+    }
+
+    public async Task Add(TaskItem task)
+    {
+        _context.TaskItems.Add(task);
+        await Save();
+    }
+
+    public async Task<bool> IsTitleExists(string title)
+    {
+        return await _context.TaskItems.AnyAsync(item => item.Title == title);
     }
 }

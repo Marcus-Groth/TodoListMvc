@@ -26,7 +26,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(List => Item.Title)
+                @Html.DisplayFor(List => Item.Id)
             </td>
             <td>
                 @Html.DisplayFor(List => Item.Title)
@@ -41,3 +41,5 @@
     }
     </tbody>
 </table>
+
+<a asp-action="Create" class="btn btn-success">Create new Task</a>
