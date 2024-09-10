@@ -23,4 +23,8 @@ public class TaskRepository : ITaskRepository
     {
         return await _context.TaskItems.ToListAsync();
     }
+    public async Task<bool> IsTitleExists(string title)
+    {
+        return await _context.TaskItems.AnyAsync(item => item.Title == title);
+    }
 }
