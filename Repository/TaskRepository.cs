@@ -24,6 +24,11 @@ public class TaskRepository : ITaskRepository
         return await _context.TaskItems.ToListAsync();
     }
 
+    public async Task<TaskItem?> GetById(int? id)
+    {
+        return await _context.TaskItems.FindAsync(id);
+    }
+
     public async Task Add(TaskItem task)
     {
         _context.TaskItems.Add(task);
