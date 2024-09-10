@@ -19,6 +19,23 @@ namespace TodoListMvc.Controllers;
             return View(taskItems);
         }
 
+    public async Task<ActionResult> Details(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var taskItem = await _taskRepository.GetById(id);
+
+        if (taskItem is null)
+        {
+            return NotFound();
+        }
+
+        return View(taskItem);
+    }
+
     public IActionResult Create()
     {
         return View();
