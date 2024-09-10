@@ -19,6 +19,19 @@ namespace TodoListMvc.Controllers;
             return View(taskItems);
         }
 
+    [HttpPost]
+    public async Task<IActionResult> Create([Bind("Title,Description,IsComplete")] TaskItem taskItem)
+    {
+        ValidateTaskItem(taskItem);
+
+        if (ModelState.IsValid)
+        {
+            await _taskRepository.Add(taskItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(taskItem);
+    }
 
     private async void ValidateTaskItem(TaskItem taskItem)
     {
