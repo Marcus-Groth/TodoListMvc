@@ -19,6 +19,11 @@ namespace TodoListMvc.Controllers;
             return View(taskItems);
         }
 
+    public IActionResult Create()
+    {
+        return View();
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([Bind("Title,Description,IsComplete")] TaskItem taskItem)
     {
