@@ -14,6 +14,11 @@ public class TaskRepository : ITaskRepository
         _context = context;
     }
 
+    private async Task Save()
+    {
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<TaskItem>> GetAll()
     {
         return await _context.TaskItems.ToListAsync();
