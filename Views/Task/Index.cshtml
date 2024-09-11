@@ -34,13 +34,14 @@
                 @Html.DisplayFor(List => Item.Title)
             </td>
             <td>
-                @Html.DisplayFor(List => Item.Title)
+                @Html.DisplayFor(List => Item.Description)
             </td>
             <td>
                 @Html.CheckBoxFor(List => Item.IsComplete)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@Item.Id" as class="btn btn-primary">View</a>
+                <a asp-action="Details" asp-route-id="@Item.Id" class="btn btn-primary">View</a>
+                <a asp-action="Delete" asp-route-id="@Item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
     }
