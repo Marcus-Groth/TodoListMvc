@@ -41,6 +41,23 @@ public class TaskController : Controller
         return View();
     }
 
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var taskItem = await _taskRepository.GetById(id);
+
+        if (taskItem is null)
+        {
+            return NotFound();
+        }
+
+        return View(taskItem);
+    }
+
     public async Task<IActionResult> Delete(int? id)
     {
         if (id is null)
@@ -67,6 +84,36 @@ public class TaskController : Controller
         if (ModelState.IsValid)
         {
             await _taskRepository.Add(taskItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(taskItem);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit([Bind("Title,Description,IsComplete")] TaskItem request, int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var taskItem = await _taskRepository.GetById(id);
+
+        if (taskItem is null)
+        {
+            return NotFound();
+        }
+
+        taskItem.Title = request.Title;
+        taskItem.Description = request.Description;
+        taskItem.IsComplete = request.IsComplete;
+
+        ValidateTaskItem(taskItem);
+
+        if (ModelState.IsValid)
+        {
+            await _taskRepository.UpdateAsync(taskItem);
             return RedirectToAction(nameof(Index));
         }
 

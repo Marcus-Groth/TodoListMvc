@@ -9,5 +9,6 @@ public interface ITaskRepository
     Task<TaskItem?> GetById(int? id);
     Task Add(TaskItem task);
     Task<bool> IsTitleExists(string title);
+    Task UpdateAsync(TaskItem taskItem);
     Task DeleteAsync(TaskItem taskItem);
 }
