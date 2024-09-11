@@ -4,20 +4,20 @@ using TodoListMvc.Repository;
 
 namespace TodoListMvc.Controllers;
 
-    public class TaskController : Controller
+public class TaskController : Controller
+{
+    private readonly ITaskRepository _taskRepository;
+
+    public TaskController(ITaskRepository taskRepository)
     {
-        private readonly ITaskRepository _taskRepository;
+        _taskRepository = taskRepository;
+    }
 
-        public TaskController(ITaskRepository taskRepository)
-        {
-            _taskRepository = taskRepository;
-        }
-
-        public async Task<ActionResult> Index()
-        {
-            var taskItems = await _taskRepository.GetAll();
-            return View(taskItems);
-        }
+    public async Task<ActionResult> Index()
+    {
+        var taskItems = await _taskRepository.GetAll();
+        return View(taskItems);
+    }
 
     public async Task<ActionResult> Details(int? id)
     {
@@ -39,6 +39,24 @@ namespace TodoListMvc.Controllers;
     public IActionResult Create()
     {
         return View();
+    }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var taskItem = await _taskRepository.GetById(id);
+
+        if (taskItem is null)
+        {
+            return NotFound();
+        }
+
+        await _taskRepository.DeleteAsync(taskItem);
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]

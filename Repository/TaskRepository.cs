@@ -39,4 +39,10 @@ public class TaskRepository : ITaskRepository
     {
         return await _context.TaskItems.AnyAsync(item => item.Title == title);
     }
+
+    public async Task DeleteAsync(TaskItem taskItem)
+    {
+        _context.TaskItems.Remove(taskItem);
+        await Save();
+    }
 }
