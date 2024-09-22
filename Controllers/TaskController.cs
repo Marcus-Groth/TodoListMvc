@@ -102,12 +102,20 @@ public class TaskController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("Title,Description,IsComplete")] TaskItem taskItem)
+    public async Task<IActionResult> Create([Bind("Title,Description,IsComplete")] CreateTaskItemVM createTaskItemVM)
     {
-        ValidateTaskItem(taskItem);
-
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
+            return View(createTaskItemVM);
+        }
+
+        var taskItem = new TaskItem
+        {
+            Title = createTaskItemVM.Title,
+            Description = createTaskItemVM.Description,
+            IsComplete = createTaskItemVM.IsComplete
+        };
+
             await _taskRepository.Add(taskItem);
             return RedirectToAction(nameof(Index));
         }
