@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListMvc.Models;
+using TodoListMvc.Models.ViewModels;
 using TodoListMvc.Repository;
 
 namespace TodoListMvc.Controllers;
@@ -16,7 +17,16 @@ public class TaskController : Controller
     public async Task<ActionResult> Index()
     {
         var taskItems = await _taskRepository.GetAll();
-        return View(taskItems);
+
+        var taskItemsVM = taskItems.Select(task => new TaskItemVM
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Description = task.Description,
+            IsComplete = task.IsComplete
+        });
+
+        return View(taskItemsVM);
     }
 
     public async Task<ActionResult> Details(int? id)
