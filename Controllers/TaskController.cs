@@ -43,7 +43,15 @@ public class TaskController : Controller
             return NotFound();
         }
 
-        return View(taskItem);
+        var taskItemVM = new TaskItemVM
+        {
+            Id = taskItem.Id,
+            Title = taskItem.Title,
+            Description = taskItem.Description,
+            IsComplete = taskItem.IsComplete
+        };
+
+        return View(taskItemVM);
     }
 
     public IActionResult Create()
