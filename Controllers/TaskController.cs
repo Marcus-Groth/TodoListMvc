@@ -73,7 +73,14 @@ public class TaskController : Controller
             return NotFound();
         }
 
-        return View(taskItem);
+        var editTaskItemVM = new EditTaskItemVM
+        {
+            Title = taskItem.Title,
+            Description = taskItem.Description,
+            IsComplete = taskItem.IsComplete
+        };
+
+        return View(editTaskItemVM);
     }
 
     public async Task<IActionResult> Delete(int? id)
