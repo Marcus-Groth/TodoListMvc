@@ -124,13 +124,8 @@ public class TaskController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit([Bind("Title,Description,IsComplete")] TaskItem request, int? id)
+    public async Task<IActionResult> Edit([Bind("Title,Description,IsComplete")] EditTaskItemVM editTaskItemVM, int? id)
     {
-        if (id is null)
-        {
-            return NotFound();
-        }
-
         var taskItem = await _taskRepository.GetById(id);
 
         if (taskItem is null)
@@ -138,14 +133,15 @@ public class TaskController : Controller
             return NotFound();
         }
 
-        taskItem.Title = request.Title;
-        taskItem.Description = request.Description;
-        taskItem.IsComplete = request.IsComplete;
-
-        ValidateTaskItem(taskItem);
-
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
+            return View(editTaskItemVM);
+        }
+
+        taskItem.Title = editTaskItemVM.Title;
+        taskItem.Description = editTaskItemVM.Description;
+        taskItem.IsComplete = editTaskItemVM.IsComplete;
+
             await _taskRepository.UpdateAsync(taskItem);
             return RedirectToAction(nameof(Index));
         }
